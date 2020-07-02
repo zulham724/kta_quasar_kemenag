@@ -3,13 +3,13 @@
     style="height:100vh;background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),url('https://images.unsplash.com/photo-1569929919600-59123640bc02?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80');background-size:cover"
   >
     <div class="q-pa-md full-height">
-      <div
-        class="row justify-center align-center content-center full-height full-width"
-      >
+      <div class="row justify-center align-center content-center full-height full-width">
         <div class="col-12" style="margin-top:-25vh">
           <div class="row justify-center" style="text-align:center">
             <img src="~assets/images/agpaii-logo-transparent.png" style="height:15vh" />
-            <div class="text-body2 q-pt-md text-white">Jika sudah mendaftar. Silahkan masuk dengan email dan password anda</div>
+            <div
+              class="text-body2 q-pt-md text-white"
+            >Jika sudah mendaftar. Silahkan masuk dengan email dan password anda</div>
           </div>
         </div>
         <div class="col-12">
@@ -57,45 +57,49 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
-  data(){
+  data() {
     return {
-      credential:{},
+      credential: {},
       loading: false
-    }
+    };
   },
-  computed:{
-    ...mapState(['Auth'])
+  computed: {
+    ...mapState(["Auth"])
   },
   methods: {
     onSubmit() {
-      this.$refs.form.validate().then(success=>{
-        if(success){
-          this.loading = true
-          this.$store.dispatch('Auth/login',this.credential).then(res=>{
-              this.$router.push('/')
-              window.history.pushState(null, null ,window.location.href)
-          }).catch(err=>{
-            this.$q.notify('Email atau Password salah')
-          }).finally(()=>{
-              this.loading = false
-          })
+      this.$refs.form.validate().then(success => {
+        if (success) {
+          this.loading = true;
+          this.$store
+            .dispatch("Auth/login", this.credential)
+            .then(res => {
+              this.$router.push("/");
+              window.history.pushState(null, null, window.location.href);
+            })
+            .catch(err => {
+              console.log(err)
+              this.$q.notify("Email atau Password salah");
+            })
+            .finally(() => {
+              this.loading = false;
+            });
         }
-      })
+      });
     },
-    forgotPassword(){
+    forgotPassword() {
       cordova.InAppBrowser.open(
         "https://agpaiidigital.org/password/reset",
         "_blank",
         "location=no"
-      )
+      );
     }
   }
 };
